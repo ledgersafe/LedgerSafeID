@@ -1,0 +1,19 @@
+{
+  "name": "auth0-interface",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kmiyachi/auth0-interface.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kmiyachi/auth0-interface/issues"
+  },
+  "homepage": "https://github.com/kmiyachi/auth0-interface#readme"
+}
