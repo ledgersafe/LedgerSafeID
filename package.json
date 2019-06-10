@@ -1,19 +1,25 @@
 {
-  "name": "auth0-interface",
+  "name": "LedgerSafeID",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd frontend/src && npm start",
+    "server": "cd backend/src && node express.js",
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kmiyachi/auth0-interface.git"
+    "url": "git+https://github.com/ledgersafe/ledgersafeid.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kmiyachi/auth0-interface/issues"
+    "url": "https://github.com/ledgersafe/ledgersafeid/issues"
   },
-  "homepage": "https://github.com/kmiyachi/auth0-interface#readme"
+  "homepage": "https://github.com/ledgersafe/ledgersafeidreadme",
+  "dependencies": {
+    "concurrently": "^4.1.0"
+  }
 }
