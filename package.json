@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd frontend/src && npm start",
     "server": "cd backend/src && node express.js",
+    "frontsetup": "cd frontend && npm i && cd ..",
+    "backsetup": "cd backend/ && npm i && cd ..",
+    "setup": "concurrently \"npm i\" \"npm run frontsetup\" \"npm run backsetup\"",
     "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
