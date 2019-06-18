@@ -19,7 +19,7 @@ class Home extends Component {
 
   render() {
     const { isAuthenticated } = this.props.auth;
-    let form = this.state.is_login_and_not_signup ? <LoginForm change={this.changeForm}/> : <SignUpForm change={this.changeForm}/>
+    let form = this.state.is_login_and_not_signup ? <LoginForm auth={this.props.auth} change={this.changeForm}/> : <SignUpForm auth={this.props.auth} change={this.changeForm}/>
     return (
       <div className="container">
         {

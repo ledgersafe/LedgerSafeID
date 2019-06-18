@@ -28,15 +28,17 @@ export default class Auth {
   }
 
   auth0_signup(em, pw, un, nam, add, lic, role){
-    this.auth0.signup({ 
+    this.auth0.signup({
       connection: 'Username-Password-Authentication', 
       email: em, 
       password: pw,
-      username: un,
-      name: nam,
-      address: add,
-      license: lic,
-      role: role
+      user_metadata: {
+        username: un,
+        name: nam,
+        address: add,
+        license: lic,
+        role: role
+      }
     }, function (err) { 
       if (err) return alert('Something went wrong: ' + err.message); 
         return alert('success signup without login!') 
