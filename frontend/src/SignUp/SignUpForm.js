@@ -25,9 +25,7 @@ class SignUpForm extends Component {
       regis_success: false
     };
 
-    this.onChange = this.onChange.bind(this);
-    // this.handleUserLoginChange = this.handleUserLoginChange.bind(this);
-    // this.handlePasswordLoginChange = this.handlePasswordLoginChange.bind(this);    
+    this.onChange = this.onChange.bind(this); 
     this.handleUserRegisChange = this.handleUserRegisChange.bind(this);
     this.handlePasswordRegisChange = this.handlePasswordRegisChange.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -35,13 +33,9 @@ class SignUpForm extends Component {
     this.handleAddressChange = this.handleAddressChange.bind(this);
     this.handleRoleChange = this.handleRoleChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
-    // this.redirectAfterRegister = this.redirectAfterRegister.bind(this);
     this.validateEmail = this.validateEmail.bind(this);
-    // this.handleAdminIdChange = this.handleAdminIdChange.bind(this);
-    // this.handleAdminPwChange = this.handleAdminPwChange.bind(this);
-    // this.callLogin = this.callLogin.bind(this);
-    // this.callEnrollAdmin = this.callEnrollAdmin.bind(this);
     this.callRegister = this.callRegister.bind(this);
+    this.auth_signup = this.auth_signup.bind(this);
   }
 
   onChange = e => {
@@ -95,48 +89,6 @@ class SignUpForm extends Component {
     this.address = event.target.value;
   }
 
-  //   handleAdminIdChange = event => {
-  //     event.preventDefault()
-  //     this.setState({ admin_id: event.target.value });
-  //   }
-
-  //   handleAdminPwChange = event => {
-  //     event.preventDefault()
-  //     this.setState({ admin_pw: event.target.value });
-  //   }
-
-  //   callLogin() {
-  //     if (this.state.login_password && this.state.login_username) {
-  //       const loginData = {
-  //         username: this.state.login_username,
-  //         password: this.state.login_password
-  //       }
-  //       $.ajax({
-  //         url: 'http://localhost:4000/login',
-  //         type: 'POST',
-  //         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-  //         crossDomain: true,
-  //         dataType: 'json',
-  //         xhrFields: { withCredentials: true },
-  //         data: {
-  //           username: this.state.login_username,
-  //           password: this.state.login_password
-  //         },
-  //         success: (data) => {
-  //           if (data.message === "OK") {
-  //             this.setState({ login_success: true });
-  //             console.log('success');
-  //           } else {
-  //             this.setState({ login_success: false });
-  //             console.log('failure');
-  //           }
-  //         }
-  //       });
-  //     } else {
-  //       alert("Please fill in login form fields.")
-  //     }
-  //   }
-
   validateEmail(email) {
     if (!email) {
       return true;
@@ -171,7 +123,7 @@ class SignUpForm extends Component {
             this.registration_errmsg = "";
             console.log('success');
             this.setState({ regis_success: true });
-            this.props.history.replace('/signup');
+            this.auth_signup(this.email, this.password, this.username, this.name, this.address, this.license, this.role);
           } else {
             this.registration_errmsg = data.result;
             console.log(this.registration_errmsg);
@@ -187,44 +139,11 @@ class SignUpForm extends Component {
     }
   }
 
-  //   callEnrollAdmin() {
-  //     if (this.state.admin_id && this.state.admin_pw) {
-  //       const adminData = {
-  //         id: this.state.admin_id,
-  //         pw: this.state.admin_pw
-  //       }
-  //       console.log(JSON.stringify(adminData))
-  //       $.ajax({
-  //         url: 'http://localhost:4000/enroll',
-  //         context: document.body,
-  //         type: 'POST',
-  //         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-  //         crossDomain: true,
-  //         dataType: 'json',
-  //         xhrFields: { withCredentials: true },
-  //         data: {
-  //           id: this.state.admin_id,
-  //           pw: this.state.admin_pw
-  //         },
-  //         success: (data) => {
-  //           if (data.message === "OK") {
-  //             this.setState({ enroll_success: true });
-  //             console.log('success');
-  //           } else {
-  //             this.setState({ enroll_success: false });
-  //             console.log('failure');
-  //           }
-  //         }
-  //       });
-  //     }
-  //     else {
-  //       alert("Please fill in admin form fields.")
-  //     }
-  //   }
+  auth_signup(em, pw, un, nam, add, lic, role){
+    this.props.auth.auth0_signup(em, pw, un, nam, add, lic, role);
+  }
 
   render() {
-    console.log(this.props.history)
-
     return (
       <div className="interface">
         {/* {this.redirectAfterRegister()} */}
@@ -280,7 +199,8 @@ class SignUpForm extends Component {
             </div>
         </div>
         <div className="loginDiv">
-        <Button onClick={() => {this.props.history.replace('/login')}}>Have an account already? Log In</Button>
+        {/* <Button onClick={() => {this.props.history.replace('/login')}}>Have an account already? Log In</Button> */}
+        <Button onClick={() => {this.props.change()}}>Have an account already? Log In</Button>
         </div>
         {/* <div className="enrollAdminForm">
           <input type="text" className="adFormField" placeholder="Admin ID" onChange={this.handleAdminIdChange} />

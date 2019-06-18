@@ -5,8 +5,8 @@ import Home from './Home/Home';
 import Callback from './Callback/Callback';
 import Auth from './Auth/Auth';
 import history from './history';
-import LoginForm from './Login/LoginForm'
-import SignUpForm from './SignUp/SignUpForm'
+// import LoginForm from './Login/LoginForm'
+// import SignUpForm from './SignUp/SignUpForm'
 
 const auth = new Auth();
 
@@ -22,8 +22,6 @@ export const makeMainRoutes = () => {
       <div>
         <Route path="/" render={(props) => <App auth={auth} {...props} />} />
         <Route path="/home" render={(props) => <Home auth={auth} {...props} />} />
-        <Route path="/login" render={(props) => <LoginForm auth={auth} {...props} />} />
-        <Route path="/signup" render={(props) => <SignUpForm auth={auth} {...props} />} />
         <Route path="/callback" render={(props) => {
           handleAuthentication(props);
           return <Callback {...props} />
@@ -32,3 +30,6 @@ export const makeMainRoutes = () => {
     </Router>
   );
 }
+
+/* <Route path="/login" render={(props) => <LoginForm auth={auth} {...props} />} />
+<Route path="/signup" render={(props) => <SignUpForm auth={auth} {...props} />} /> */

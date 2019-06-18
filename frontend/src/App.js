@@ -78,7 +78,7 @@ class App extends Component {
           </Navbar.Header>
         </Navbar>
         {
-          this.props.history.location.pathname == "/" && (
+          this.props.history.location.pathname === "/" && (
             <Home auth={this.props.auth}/>
           )
         }

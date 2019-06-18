@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 import Profile from '../Profile/Profile';
+import LoginForm from '../Login/LoginForm'
+import SignUpForm from '../SignUp/SignUpForm'
 
 class Home extends Component {
-  login() {
-    this.props.auth.login();
+  constructor(props){
+    super(props);
+    this.state = {
+      is_login_and_not_signup: true
+    }
+
+    this.changeForm = this.changeForm.bind(this)
   }
+
+  changeForm(){
+    this.setState({ is_login_and_not_signup: !this.state.is_login_and_not_signup })
+  }
+
   render() {
-    console.log(this.props.history)
     const { isAuthenticated } = this.props.auth;
+    let form = this.state.is_login_and_not_signup ? <LoginForm change={this.changeForm}/> : <SignUpForm change={this.changeForm}/>
     return (
       <div className="container">
         {
@@ -17,16 +29,17 @@ class Home extends Component {
         }
         {
           !isAuthenticated() && (
-              <h4>
-                You are not logged in! Please{' '}
-                <a style={{ cursor: 'pointer' }} onClick={() => {this.props.history.replace('/login')}}>
-                  Log In
-                </a>
-                {' '}to continue or {' '}
-                <a style={{ cursor: 'pointer' }} onClick={() => {this.props.history.replace('/signup')}}>
-                  Sign Up
-                </a>{''}.
-              </h4>
+              // <h4>
+              //   You are not logged in! Please{' '}
+              //   <a style={{ cursor: 'pointer' }} onClick={() => {this.props.history.replace('/login')}}>
+              //     Log In
+              //   </a>
+              //   {' '}to continue or {' '}
+              //   <a style={{ cursor: 'pointer' }} onClick={() => {this.props.history.replace('/signup')}}>
+              //     Sign Up
+              //   </a>{''}.
+              // </h4>
+              form
             )
         }
       </div>

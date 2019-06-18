@@ -26,16 +26,8 @@ class LoginForm extends Component {
     });
   }
 
-  componentDidMount() {
-    const { renewSession } = this.props.auth;
-
-    if (localStorage.getItem('loggedIn') === 'true') {
-      renewSession();
-    }
-  }
-
-  auth_login() {
-    this.props.auth.auth0_login();
+  auth_login(un, pw) {
+    this.props.auth.auth0_login(un, pw);
   }
 
   auth_logout() {
@@ -71,7 +63,7 @@ class LoginForm extends Component {
             console.log('success');
             this.login_error = false;
             this.setState({ login_success: true });
-            this.auth_login()
+            this.auth_login(this.username, this.password)
           } else {
             this.login_error = true;
             this.setState({ login_success: false });
@@ -86,8 +78,6 @@ class LoginForm extends Component {
   }
 
   render() {
-    console.log("rendering")
-    console.log(this.props.history)
     return (
       <div className="interface">
         <div className="loginForm">
@@ -107,7 +97,8 @@ class LoginForm extends Component {
           </div>
         </div>
         <div className="registerDiv">
-          <Button onClick={() => {this.props.history.replace('/signup')}}>Don't have an account? Sign Up</Button>
+          {/* <Button onClick={() => {this.props.history.replace('/signup')}}>Don't have an account? Sign Up</Button> */}
+          <Button onClick={() => {this.props.change()}}>Don't have an account? Sign Up</Button>
         </div>
       </div>
     );
