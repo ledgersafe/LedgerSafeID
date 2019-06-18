@@ -16,8 +16,9 @@ export default class Auth {
   });
 
   constructor() {
-    this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
+    this.auth0_signup = this.auth0_signup.bind(this);
+    this.auth0_login = this.auth0_login.bind(this);
+    this.auth0_logout = this.auth0_logout.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getAccessToken = this.getAccessToken.bind(this);
@@ -26,8 +27,30 @@ export default class Auth {
     this.getProfile = this.getProfile.bind(this);
   }
 
-  login() {
-    this.auth0.authorize();
+  auth0_signup(em, pw, un, gn, fn, nam, nick){
+    this.auth0.signup({ 
+      connection: 'Username-Password-Authentication', 
+      email: em, 
+      password: pw,
+      username: un,
+      given_name: gn,
+      family_name: fn,
+      name: nam,
+      nickname: nick,
+    }, function (err) { 
+      if (err) return alert('Something went wrong: ' + err.message); 
+        return alert('success signup without login!') 
+    });
+  }
+
+  auth0_login(un, pw) {
+    // this.auth0.authorize();
+    this.auth0.popup.loginWithCredentials({
+      connection: 'Username-Password-Authentication',
+      username: un,
+      password: pw,
+      scope: 'openid'
+    });
   }
 
   handleAuthentication() {
@@ -85,7 +108,7 @@ export default class Auth {
     });
   }
 
-  logout() {
+  auth0_logout() {
     // Remove tokens and expiry time
     this.accessToken = null;
     this.idToken = null;
@@ -96,7 +119,8 @@ export default class Auth {
     localStorage.removeItem('isLoggedIn');
 
     this.auth0.logout({
-      returnTo: window.location.origin
+      returnTo: window.location.origin,
+      client_id: AUTH_CONFIG.clientId
     });
 
     // navigate to the home route

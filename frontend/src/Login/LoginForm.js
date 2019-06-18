@@ -35,7 +35,7 @@ class LoginForm extends Component {
   }
 
   auth_login() {
-    this.props.auth.login();
+    this.props.auth.auth0_login();
   }
 
   auth_logout() {
@@ -87,6 +87,7 @@ class LoginForm extends Component {
 
   render() {
     console.log("rendering")
+    console.log(this.props.history)
     return (
       <div className="interface">
         <div className="loginForm">
@@ -106,7 +107,7 @@ class LoginForm extends Component {
           </div>
         </div>
         <div className="registerDiv">
-          <Button onClick={this.props.history.replace('/signup')}>Don't have an account? Sign Up</Button>
+          <Button onClick={() => {this.props.history.replace('/signup')}}>Don't have an account? Sign Up</Button>
         </div>
       </div>
     );

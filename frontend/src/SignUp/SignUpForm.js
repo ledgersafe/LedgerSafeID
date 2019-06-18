@@ -35,7 +35,7 @@ class SignUpForm extends Component {
     this.handleAddressChange = this.handleAddressChange.bind(this);
     this.handleRoleChange = this.handleRoleChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.redirectAfterRegister = this.redirectAfterRegister.bind(this);
+    // this.redirectAfterRegister = this.redirectAfterRegister.bind(this);
     this.validateEmail = this.validateEmail.bind(this);
     // this.handleAdminIdChange = this.handleAdminIdChange.bind(this);
     // this.handleAdminPwChange = this.handleAdminPwChange.bind(this);
@@ -223,9 +223,11 @@ class SignUpForm extends Component {
   //   }
 
   render() {
+    console.log(this.props.history)
+
     return (
       <div className="interface">
-        {this.redirectAfterRegister()}
+        {/* {this.redirectAfterRegister()} */}
         <div className="registerUserForm">
             <input type="text" className="regFormField" placeholder="Username" onChange={this.handleUserRegisChange} />
             {this.registration_errmsg === "user duplicate" ?
@@ -278,7 +280,7 @@ class SignUpForm extends Component {
             </div>
         </div>
         <div className="loginDiv">
-        <Button onClick={this.props.history.replace('/home')}>Don't have an account? Sign Up</Button>
+        <Button onClick={() => {this.props.history.replace('/login')}}>Have an account already? Log In</Button>
         </div>
         {/* <div className="enrollAdminForm">
           <input type="text" className="adFormField" placeholder="Admin ID" onChange={this.handleAdminIdChange} />

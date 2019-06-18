@@ -6,6 +6,7 @@ class Home extends Component {
     this.props.auth.login();
   }
   render() {
+    console.log(this.props.history)
     const { isAuthenticated } = this.props.auth;
     return (
       <div className="container">
@@ -18,13 +19,11 @@ class Home extends Component {
           !isAuthenticated() && (
               <h4>
                 You are not logged in! Please{' '}
-                <a style={{ cursor: 'pointer' }}
-                  onClick={this.login.bind(this)}>
+                <a style={{ cursor: 'pointer' }} onClick={() => {this.props.history.replace('/login')}}>
                   Log In
                 </a>
                 {' '}to continue or {' '}
-                <a style={{ cursor: 'pointer' }}
-                  onClick={this.login.bind(this)}>
+                <a style={{ cursor: 'pointer' }} onClick={() => {this.props.history.replace('/signup')}}>
                   Sign Up
                 </a>{''}.
               </h4>

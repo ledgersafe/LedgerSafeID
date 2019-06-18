@@ -9,11 +9,11 @@ class App extends Component {
   }
 
   login() {
-    this.props.auth.login();
+    this.props.auth.auth0_login();
   }
 
   logout() {
-    this.props.auth.logout();
+    this.props.auth.auth0_logout();
   }
 
   componentDidMount() {
@@ -26,6 +26,7 @@ class App extends Component {
 
   render() {
     const { isAuthenticated } = this.props.auth;
+    console.log('hello')
     return (
       <div>
         <Navbar fluid>
@@ -40,7 +41,7 @@ class App extends Component {
             >
               Home
             </Button>
-            {
+            {/* {
               !isAuthenticated() && (
                 <span>
                   <Button
@@ -61,7 +62,7 @@ class App extends Component {
                   </Button>
                 </span>
               )
-            }
+            } */}
             {
               isAuthenticated() && (
                 <Button
