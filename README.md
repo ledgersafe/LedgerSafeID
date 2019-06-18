@@ -20,20 +20,12 @@ cd fabric-network
 ./startFabric.sh
 ```
 
-##### Install Frontend Node Packages
+##### Install Node Packages
 ``` 
-cd frontend 
-npm i 
-```
-
-##### Install Backend Node Packages
-```
-cd backend
-npm i
+npm run setup
 ```
 
 ##### Start the LedgerSafe Identity Application
 ```
-npm i
 npm start
 ```
