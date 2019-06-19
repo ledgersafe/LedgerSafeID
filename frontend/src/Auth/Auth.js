@@ -29,7 +29,7 @@ export default class Auth {
 
   auth0_signup(em, pw, un, nam, add, lic, role){
     this.auth0.signup({
-      connection: 'Username-Password-Authentication', 
+      connection: AUTH_CONFIG.connection, 
       email: em, 
       password: pw,
       user_metadata: {
@@ -48,7 +48,7 @@ export default class Auth {
   auth0_login(un, pw) {
     // this.auth0.authorize();
     this.auth0.popup.loginWithCredentials({
-      connection: 'Username-Password-Authentication',
+      connection: AUTH_CONFIG.connection,
       username: un,
       password: pw,
       scope: 'openid'
