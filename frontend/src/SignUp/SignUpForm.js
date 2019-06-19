@@ -21,6 +21,7 @@ class SignUpForm extends Component {
     this.license_err = false;
     this.email_err = false;
     this.address_err = false;
+    this.invalid_password = false;
     this.state = {
       regis_success: false
     };
@@ -36,6 +37,7 @@ class SignUpForm extends Component {
     this.validateEmail = this.validateEmail.bind(this);
     this.callRegister = this.callRegister.bind(this);
     this.auth_signup = this.auth_signup.bind(this);
+    this.checkPassword = this.checkPassword.bind(this);
   }
 
   onChange = e => {
@@ -44,15 +46,15 @@ class SignUpForm extends Component {
     });
   }
 
-  //   handleUserLoginChange = event => {
-  //     event.preventDefault()
-  //     this.setState({ login_username: event.target.value });
-  //   }
-
-  //   handlePasswordLoginChange = event => {
-  //     event.preventDefault()
-  //     this.setState({ login_password: event.target.value });
-  //   }
+  checkPassword(pw){
+    let check_count = 0;
+    var regex = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
+    if(pw.toUpperCase() !== pw) check_count++;
+    if(pw.toLowerCase() !== pw) check_count++;
+    if(/\d/.test(pw)) check_count++;
+    if(regex.test(pw)) check_count++;
+    return (pw.length > 7) && (check_count >= 3)
+  }
 
   handleUserRegisChange = event => {
     event.preventDefault()
@@ -104,9 +106,10 @@ class SignUpForm extends Component {
     !this.address ? this.address_err = true : this.address_err = false;
     !this.license ? this.license_err = true : this.license_err = false;
     !this.email || !this.validateEmail(this.email) ? this.email_err = true : this.email_err = false;
+    !this.checkPassword(this.password) ? this.invalid_password = true : this.invalid_password = false;
     if (!this.username_err && !this.name_err
       && !this.password_err && !this.license_err
-      && !this.address_err && !this.email_err) {
+      && !this.address_err && !this.email_err && !this.invalid_password) {
       $.ajax({
         url: 'http://localhost:4000/register',
         type: 'POST',
@@ -123,7 +126,7 @@ class SignUpForm extends Component {
             this.registration_errmsg = "";
             console.log('success');
             this.setState({ regis_success: true });
-            this.auth_signup(this.email, this.password, this.username, this.name, this.address, this.license, this.role);
+            this.auth_signup(this.email, this.password);
           } else {
             this.registration_errmsg = data.result;
             console.log(this.registration_errmsg);
@@ -140,7 +143,7 @@ class SignUpForm extends Component {
   }
 
   auth_signup(em, pw, un, nam, add, lic, role){
-    this.props.auth.auth0_signup(em, pw, un, nam, add, lic, role);
+    this.props.auth.auth0_signup(em, pw);
   }
 
   render() {
@@ -162,6 +165,11 @@ class SignUpForm extends Component {
             {this.password_err ?
               <div className="error_msg">Fill in your password.</div>
               : <br></br>
+            }
+            {
+              this.invalid_password ? 
+              <div className="error_msg">Password must be at least 8 characters in length and contain at least 3 of the following 4 types of characters: lower case letters (a-z), upper case letters (A-Z), numbers (i.e. 0-9), special characters (e.g. !@#$%^&*)</div>
+              : null
             }
             <input type="text" className="regFormField" placeholder="Name" onChange={this.handleNameChange} />
             {this.name_err ?
@@ -195,6 +203,7 @@ class SignUpForm extends Component {
               <div className="error_msg">There is no admin node available.</div>
               : null
             }
+          {/* <div id='error-message' style={{color: "#cc342c"}}></div> */}
               <input type="submit" className="submitButton" value="Register" onClick={this.callRegister}></input>
             </div>
         </div>

@@ -8,6 +8,7 @@ class LoginForm extends Component {
     super(props);
     this.username = "";
     this.password = "";
+    this.email = "";
     this.login_error = false;
     this.missing_info = false;
     this.state = {
@@ -39,6 +40,11 @@ class LoginForm extends Component {
     this.username = event.target.value;
   }
 
+  handleEmailLoginChange = event => {
+    event.preventDefault()
+    this.email = event.target.value;
+  }
+
   handlePasswordLoginChange = event => {
     event.preventDefault()
     this.password = event.target.value;
@@ -63,7 +69,7 @@ class LoginForm extends Component {
             console.log('success');
             this.login_error = false;
             this.setState({ login_success: true });
-            this.auth_login(this.username, this.password)
+            this.auth_login(this.email, this.password)
           } else {
             this.login_error = true;
             this.setState({ login_success: false });
@@ -83,11 +89,13 @@ class LoginForm extends Component {
         <div className="loginForm">
           <input type="text" className="loginFormField" placeholder="Username" onChange={this.handleUserLoginChange} />
           <br></br>
+          <input type="text" className="loginFormField" placeholder="Email" onChange={this.handleEmailLoginChange} />
+          <br></br>
           <input type="password" className="loginFormField" placeholder="Password" onChange={this.handlePasswordLoginChange} />
-          {this.login_error && !this.missing_info ?
-            <div className="error_msg">Either your username or password is incorrect.</div>
+          <div className="error_msg" id='error-message'>{this.login_error && !this.missing_info ?
+            'Either your username, email or password is incorrect.'
             : null
-          }
+          }</div>
           {this.missing_info ?
             <div className="error_msg">Please complete empty fields.</div>
             : null

@@ -27,31 +27,37 @@ export default class Auth {
     this.getProfile = this.getProfile.bind(this);
   }
 
-  auth0_signup(em, pw, un, nam, add, lic, role){
-    this.auth0.signup({
-      connection: AUTH_CONFIG.connection, 
-      email: em, 
-      password: pw,
-      user_metadata: {
-        username: un,
-        name: nam,
-        address: add,
-        license: lic,
-        role: role
+  auth0_signup(em, pw){
+    this.auth0.redirect.signupAndLogin({
+      connection: AUTH_CONFIG.connection,
+      email: em,
+      password: pw
+    }, function(err) {
+      if (err){
+        console.log(err);
+        // var errorMessage = document.getElementById('error-message');
+        // errorMessage.innerHTML = err.description;
+        // errorMessage.style.display = 'block';
+        // return true;   
       }
-    }, function (err) { 
-      if (err) return alert('Something went wrong: ' + err.message); 
-        return alert('success signup without login!') 
+      else{
+        return false;
+      }
     });
   }
 
-  auth0_login(un, pw) {
+  auth0_login(em, pw) {
     // this.auth0.authorize();
-    this.auth0.popup.loginWithCredentials({
-      connection: AUTH_CONFIG.connection,
-      username: un,
-      password: pw,
-      scope: 'openid'
+    this.auth0.login({
+      realm: AUTH_CONFIG.connection,
+      email: em,
+      password: pw
+    }, function(err) {
+      if (err){
+        console.log(err);
+        var errorMessage = document.getElementById('error-message');
+        errorMessage.innerHTML = 'Either your username, email or password is incorrect.';
+        errorMessage.style.display = 'block';      }
     });
   }
 
@@ -103,7 +109,7 @@ export default class Auth {
        if (authResult && authResult.accessToken && authResult.idToken) {
          this.setSession(authResult);
        } else if (err) {
-         this.logout();
+         this.auth0_logout();
          console.log(err);
          alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
        }
