@@ -46,6 +46,12 @@ class SignUpForm extends Component {
     });
   }
 
+   /**
+   * Password sanity check
+   * @param pw -- password of the registration from
+   *
+   * @public
+   */
   checkPassword(pw){
     let check_count = 0;
     var regex = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
@@ -56,41 +62,81 @@ class SignUpForm extends Component {
     return (pw.length > 7) && (check_count >= 3)
   }
 
+  /**
+   * changes username variable
+   *
+   * @public
+   */
   handleUserRegisChange = event => {
     event.preventDefault()
     this.username = event.target.value;
   }
 
+  /**
+   * changes password variable
+   *
+   * @public
+   */
   handlePasswordRegisChange = event => {
     event.preventDefault()
     this.password = event.target.value;
   }
 
+  /**
+   * changes name variable
+   *
+   * @public
+   */
   handleNameChange = event => {
     event.preventDefault()
     this.name = event.target.value;
   }
 
+  /**
+   * changes email variable
+   *
+   * @public
+   */
   handleEmailChange = event => {
     event.preventDefault()
     this.email = event.target.value;
   }
 
+  /**
+   * changes license variable
+   *
+   * @public
+   */
   handleLicenseChange = event => {
     event.preventDefault()
     this.license = event.target.value;
   }
 
+  /**
+   * changes role variable
+   *
+   * @public
+   */
   handleRoleChange = event => {
     event.preventDefault()
     this.role = document.getElementById("role").value;
   }
 
+  /**
+   * changes address variable
+   *
+   * @public
+   */
   handleAddressChange = event => {
     event.preventDefault()
     this.address = event.target.value;
   }
 
+  /**
+   * email sanity check
+   *
+   * @public
+   */
   validateEmail(email) {
     if (!email) {
       return true;
@@ -99,6 +145,11 @@ class SignUpForm extends Component {
     return re.test(email);
   }
 
+   /**
+   * Calls the register endpoint inputting the form input
+   *
+   * @public
+   */
   callRegister() {
     let passed_auth0 = this.auth_signup(this.username, this.email, this.password);
     if(passed_auth0){
@@ -143,16 +194,24 @@ class SignUpForm extends Component {
     }
   }
 }
-
+   /**
+   * Begins the registration authentication process
+   *
+   * @public
+   */
   auth_signup(un, em, pw, nam, add, lic, role){
     console.log('signup called')
     this.props.auth.auth0_signup(un, em, pw);
   }
 
+   /**
+   * Renders the registration form.
+   *
+   * @public
+   */
   render() {
     return (
       <div className="interface">
-        {/* {this.redirectAfterRegister()} */}
         <div className="registerUserForm">
             <input type="text" className="regFormField" placeholder="Username" onChange={this.handleUserRegisChange} />
             {this.registration_errmsg === "user duplicate" ?
@@ -211,14 +270,8 @@ class SignUpForm extends Component {
             </div>
         </div>
         <div className="loginDiv">
-        {/* <Button onClick={() => {this.props.history.replace('/login')}}>Have an account already? Log In</Button> */}
         <Button onClick={() => {this.props.change()}}>Have an account already? Log In</Button>
         </div>
-        {/* <div className="enrollAdminForm">
-          <input type="text" className="adFormField" placeholder="Admin ID" onChange={this.handleAdminIdChange} />
-          <input type="password" className="adFormField" placeholder="Admin Password" onChange={this.handleAdminPwChange} />
-          <input type="submit" value="Enroll" onClick={this.callEnrollAdmin}></input>
-        </div> */}
       </div>
     );
   }

@@ -5,17 +5,18 @@ import Home from './Home/Home';
 import Callback from './Callback/Callback';
 import Auth from './Auth/Auth';
 import history from './history';
-// import LoginForm from './Login/LoginForm'
-// import SignUpForm from './SignUp/SignUpForm'
 
+// Creates auth0 object used for authentication
 const auth = new Auth();
 
+// Creates object handleAuthentication to begin authenticating process
 const handleAuthentication = ({ location }) => {
   if (/access_token|id_token|error/.test(location.hash)) {
     auth.handleAuthentication();
   }
 }
 
+// Set up router and link endpoints to components
 export const makeMainRoutes = () => {
   return (
     <Router history={history}>
@@ -30,6 +31,3 @@ export const makeMainRoutes = () => {
     </Router>
   );
 }
-
-/* <Route path="/login" render={(props) => <LoginForm auth={auth} {...props} />} />
-<Route path="/signup" render={(props) => <SignUpForm auth={auth} {...props} />} /> */

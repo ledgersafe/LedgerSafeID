@@ -27,6 +27,15 @@ export default class Auth {
     this.getProfile = this.getProfile.bind(this);
   }
 
+
+   /**
+   * Registers a user in auth0.
+   *
+   * @param {string} un -- username of the proposed user
+   * @param {string} em -- email of the proposed user
+   * @param {string} pw -- password of the proposed user
+   * @public
+   */
   auth0_signup(un, em, pw){
     this.auth0.redirect.signupAndLogin({
       connection: AUTH_CONFIG.connection,
@@ -47,6 +56,14 @@ export default class Auth {
     });
   }
 
+   /**
+   * Log in for a user in auth0.
+   *
+   * @param {string} un -- username of the proposed user
+   * @param {string} em -- email of the proposed user
+   * @param {string} pw -- password of the proposed user
+   * @public
+   */
   auth0_login(un, em, pw) {
     // this.auth0.authorize();
     this.auth0.login({
@@ -63,6 +80,11 @@ export default class Auth {
     });
   }
 
+   /**
+   * Begins the authentication process.
+   *
+   * @public
+   */
   handleAuthentication() {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -75,14 +97,29 @@ export default class Auth {
     });
   }
 
+   /**
+   * Gets current session's access token.
+   *
+   * @public
+   */
   getAccessToken() {
     return this.accessToken;
   }
-
+   /**
+   * Gets current session's identification token.
+   *
+   * @public
+   */
   getIdToken() {
     return this.idToken;
   }
 
+   /**
+   * Sets information for a session.
+   * @param {json} authResult -- Result of the auth0 authentication protocol
+   *
+   * @public
+   */
   setSession(authResult) {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
@@ -97,6 +134,11 @@ export default class Auth {
     history.replace('/home');
   }
 
+  /**
+   * Retrieves user profile and information
+   * @param {function} cb -- callback function
+   * @public
+   */
   getProfile(cb) {
     this.auth0.client.userInfo(this.accessToken, (err, profile) => {
       if (profile) {
@@ -106,6 +148,11 @@ export default class Auth {
     });
   }
 
+  /**
+   * Gets new token for user to stay authenticated
+   *
+   * @public
+   */
   renewSession() {
     this.auth0.checkSession({}, (err, authResult) => {
        if (authResult && authResult.accessToken && authResult.idToken) {
@@ -118,6 +165,11 @@ export default class Auth {
     });
   }
 
+  /**
+   * Removes user from session and deactivates authentication
+   *
+   * @public
+   */
   auth0_logout() {
     // Remove tokens and expiry time
     this.accessToken = null;
@@ -137,6 +189,11 @@ export default class Auth {
     history.replace('/home');
   }
 
+  /**
+   * Checks if user is authenticated
+   *
+   * @public
+   */
   isAuthenticated() {
     // Check whether the current time is past the
     // access token's expiry time

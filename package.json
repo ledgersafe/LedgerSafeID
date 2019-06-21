@@ -7,6 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd frontend/src && npm start",
     "server": "cd backend/src && node express.js",
+    "clean": "docker rm -f $(docker ps -aq) && docker rmi -f $(docker images -a -q)",
+    "instantiate": "cd fabric-network/scripts && ./startFabric.sh",
     "frontsetup": "cd frontend && npm i && cd ..",
     "backsetup": "cd backend/ && npm i && cd ..",
     "setup": "concurrently \"npm i\" \"npm run frontsetup\" \"npm run backsetup\"",
