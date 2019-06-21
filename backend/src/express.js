@@ -182,6 +182,7 @@ app.use('/login', function (req, res) {
     var username = req.body.username;
     // var password = req.body.password;
     login(username).then(function(result){
+        console.log("result from hyperledger login: ",result)
         if (result) {
             res.status(200).json({ message: 'OK' });
         } else {

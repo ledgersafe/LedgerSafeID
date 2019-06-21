@@ -100,6 +100,8 @@ class SignUpForm extends Component {
   }
 
   callRegister() {
+    let passed_auth0 = this.auth_signup(this.username, this.email, this.password);
+    if(passed_auth0){
     !this.username ? this.username_err = true : this.username_err = false;
     !this.name ? this.name_err = true : this.name_err = false;
     !this.password ? this.password_err = true : this.password_err = false;
@@ -126,7 +128,6 @@ class SignUpForm extends Component {
             this.registration_errmsg = "";
             console.log('success');
             this.setState({ regis_success: true });
-            this.auth_signup(this.email, this.password);
           } else {
             this.registration_errmsg = data.result;
             console.log(this.registration_errmsg);
@@ -141,9 +142,11 @@ class SignUpForm extends Component {
       this.setState({ regis_success: false });
     }
   }
+}
 
-  auth_signup(em, pw, un, nam, add, lic, role){
-    this.props.auth.auth0_signup(em, pw);
+  auth_signup(un, em, pw, nam, add, lic, role){
+    console.log('signup called')
+    this.props.auth.auth0_signup(un, em, pw);
   }
 
   render() {

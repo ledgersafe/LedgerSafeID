@@ -27,8 +27,8 @@ class LoginForm extends Component {
     });
   }
 
-  auth_login(un, pw) {
-    this.props.auth.auth0_login(un, pw);
+  auth_login(un, em, pw) {
+    this.props.auth.auth0_login(un, em, pw);
   }
 
   auth_logout() {
@@ -65,11 +65,12 @@ class LoginForm extends Component {
           password: this.password
         },
         success: (data) => {
+          console.log("Successful return ", data)
           if (data.message === "OK") {
             console.log('success');
             this.login_error = false;
             this.setState({ login_success: true });
-            this.auth_login(this.email, this.password)
+            this.auth_login(this.username, this.email, this.password)
           } else {
             this.login_error = true;
             this.setState({ login_success: false });

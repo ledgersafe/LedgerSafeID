@@ -27,9 +27,10 @@ export default class Auth {
     this.getProfile = this.getProfile.bind(this);
   }
 
-  auth0_signup(em, pw){
+  auth0_signup(un, em, pw){
     this.auth0.redirect.signupAndLogin({
       connection: AUTH_CONFIG.connection,
+      username: un,
       email: em,
       password: pw
     }, function(err) {
@@ -38,18 +39,19 @@ export default class Auth {
         // var errorMessage = document.getElementById('error-message');
         // errorMessage.innerHTML = err.description;
         // errorMessage.style.display = 'block';
-        // return true;   
+        return false; 
       }
       else{
-        return false;
+        return true;
       }
     });
   }
 
-  auth0_login(em, pw) {
+  auth0_login(un, em, pw) {
     // this.auth0.authorize();
     this.auth0.login({
       realm: AUTH_CONFIG.connection,
+      username: un,
       email: em,
       password: pw
     }, function(err) {
