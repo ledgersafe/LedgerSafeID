@@ -23,6 +23,8 @@ const wallet = new FileSystemWallet(walletPath);
 console.log(`Wallet path: ${walletPath}`);
 const gateway = new Gateway();
 
+const userRouter = require('./routes/userRoutes.js')();
+
 // const CDBKVS = require('fabric-client/lib/impl/CouchDBKeyValueStore.js');
 
 // var client = Fabric_CA_Client.loadFromConfig('test/fixtures/network.yaml');
@@ -51,6 +53,9 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/user', userRouter);
+
+
 //app.use(bodyParser.json());
 // const server = require('./server.js');
 

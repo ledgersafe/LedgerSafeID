@@ -36,9 +36,6 @@ export default class Auth {
     }, function(err) {
       if (err){
         console.log(err);
-        // var errorMessage = document.getElementById('error-message');
-        // errorMessage.innerHTML = err.description;
-        // errorMessage.style.display = 'block';
         return false; 
       }
       else{
@@ -57,9 +54,7 @@ export default class Auth {
     }, function(err) {
       if (err){
         console.log(err);
-        var errorMessage = document.getElementById('error-message');
-        errorMessage.innerHTML = 'Either your username, email or password is incorrect.';
-        errorMessage.style.display = 'block';      }
+      }
     });
   }
 

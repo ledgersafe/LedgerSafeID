@@ -9,7 +9,7 @@ class SignUpForm extends Component {
     this.username = "";
     this.password = "";
     this.name = "";
-    this.role = "bus";
+    this.role = "business";
     this.license = "";
     this.email = "";
     this.address = "";
@@ -121,7 +121,11 @@ class SignUpForm extends Component {
         xhrFields: { withCredentials: true },
         data: {
           username: this.username,
-          password: this.password
+          password: this.password,
+          email: this.email,
+          license: this.license,
+          address: this.address,
+          role: this.role
         },
         success: (data) => {
           if (data.message === "OK") {
@@ -144,7 +148,7 @@ class SignUpForm extends Component {
   }
 }
 
-  auth_signup(un, em, pw, nam, add, lic, role){
+  auth_signup(un, em, pw){
     console.log('signup called')
     this.props.auth.auth0_signup(un, em, pw);
   }
@@ -196,9 +200,9 @@ class SignUpForm extends Component {
                 : <br></br>
               }
               <select className="regFormField" id="role" onChange={this.handleRoleChange}>
-                <option value="bus">Business</option>
-                <option value="fin">Financial Institution</option>
-                <option value="reg">Regulator</option>
+                <option value="business">Business</option>
+                <option value="finanial institute">Financial Institution</option>
+                <option value="regulator">Regulator</option>
               </select>
             </div>
             <div>
