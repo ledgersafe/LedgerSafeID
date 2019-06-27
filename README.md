@@ -14,10 +14,14 @@ This directory contains the client-side JavaScript and and React Components of t
 This directory contains the network scripts and paramters for the Hyperledger Fabric Network of the LedgerSafe Identification Platform. 
 #### Setup
 
+##### Clean up all local docker containers running
+```
+npm run clean
+```
+
 ##### Start the Hyperledger Fabric Network
 ```
-cd fabric-network
-./startFabric.sh
+npm run instantiate
 ```
 
 ##### Install Node Packages
@@ -29,3 +33,5 @@ npm run setup
 ```
 npm start
 ```
+
+

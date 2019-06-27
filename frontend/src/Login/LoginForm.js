@@ -27,10 +27,23 @@ class LoginForm extends Component {
     });
   }
 
+  /**
+   * Log in for a user in auth0.
+   *
+   * @param {string} un -- username of the proposed user
+   * @param {string} em -- email of the proposed user
+   * @param {string} pw -- password of the proposed user
+   * @public
+   */
   auth_login(un, em, pw) {
     this.props.auth.auth0_login(un, em, pw);
   }
 
+  /**
+   * Log out for a user in auth0.
+   *
+   * @public
+   */
   auth_logout() {
     this.props.auth.logout();
   }
@@ -50,6 +63,11 @@ class LoginForm extends Component {
     this.password = event.target.value;
   }
 
+  /**
+   * Calls login endpoint for LedgerSafeID Application
+   *
+   * @public
+   */
   callLogin() {
     if (this.password && this.username) {
       this.missing_info = false;
@@ -84,6 +102,11 @@ class LoginForm extends Component {
     }
   }
 
+   /**
+   * Displays the Login Component.
+   *
+   * @public
+   */
   render() {
     return (
       <div className="interface">

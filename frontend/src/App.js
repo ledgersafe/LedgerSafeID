@@ -41,28 +41,6 @@ class App extends Component {
             >
               Home
             </Button>
-            {/* {
-              !isAuthenticated() && (
-                <span>
-                  <Button
-                    id="qsLoginBtn"
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.login.bind(this)}
-                  >
-                    Log In
-                  </Button>
-                  <Button
-                    id="qsSignUpBtn"
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.login.bind(this)}
-                  >
-                    Sign Up
-                  </Button>
-                </span>
-              )
-            } */}
             {
               isAuthenticated() && (
                 <Button

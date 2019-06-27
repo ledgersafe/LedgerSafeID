@@ -5,6 +5,11 @@ import $ from 'jquery';
 
 class Profile extends Component {
 
+  /**
+   * Mounts the Profile Component
+   *
+   * @public
+   */
   componentWillMount() {
     console.log("componentMounts")
     this.setState({ profile: {} });
@@ -17,6 +22,13 @@ class Profile extends Component {
       this.setState({ profile: userProfile });
     }
   }
+
+  /**
+   * Calls the Register endpoint.
+   *
+   * @param {string} user
+   * @public
+   */
   callRegister(user) {
     $.ajax({
       url: 'http://localhost:4000/register',
@@ -40,6 +52,13 @@ class Profile extends Component {
       }
     });
   }
+
+   /**
+   * Calls the Login endpoint.
+   *
+   * @param {string} user
+   * @public
+   */
   callLogin(user) {
     $.ajax({
       url: 'http://localhost:4000/login',
@@ -61,6 +80,12 @@ class Profile extends Component {
       }
     });
   }
+
+   /**
+   * Displays the Profile Component.
+   *
+   * @public
+   */
   render() {
     const { profile } = this.state;
     console.log(profile)
