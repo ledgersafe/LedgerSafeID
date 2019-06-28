@@ -2,8 +2,9 @@ const mysql = require('mysql');
 
 const config = {
   host: 'sql3.freemysqlhosting.net',
-  user: 'sql3296283',
-  password: 'eUZ88wMQ8m',
+  user: 'sql3296991',
+  password: 'q7G6aCpumX',
+  database: 'sql3296991',
   port: 3306
 };
 

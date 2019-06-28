@@ -5,6 +5,10 @@ const port = 4000
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const db = require('./db');
+const { MD5 } = require('./validation');
+const request = require('request');
+const { AUTH_CONFIG } = require('./auth0-variables');
+
 
 // Fabric node modules
 let Fabric_CA_Client = require('fabric-ca-client');
@@ -93,15 +97,31 @@ var enrollAdmin = async function (id, pw) {
 }
 
 // Calls function
-enrollAdmin('admin','adminpw');
+enrollAdmin('admin', 'adminpw');
 
 /**
   * @desc Registers user in the Hyperledger Fabric Network
   * @param string $username - the username of the user
   * @return string - if the returned string is not empty, an error has occurred
 */
-var register = async function (username) {
+var register = async function (reqBody) {
     try {
+        const {
+            username, password, email, license, address, role
+        } = reqBody;
+
+        var options = {
+            method: 'GET',
+            url: 'https://YOUR_DOMAIN/api/v2/users',
+            qs: { q: `username:"${username}"`, search_engine: 'v3' },
+            headers: { authorization: 'Bearer YOUR_MGMT_API_ACCESS_TOKEN' }
+        };
+
+        request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+
+            console.log(body);
+        });
 
         const userExists = await wallet.exists(username);
         if (userExists) {
@@ -135,29 +155,31 @@ var register = async function (username) {
         wallet.import(username, userIdentity);
         console.log('Successfully registered and enrolled admin user "' + username + '" and imported it into the wallet');
         db.query('SELECT u_username FROM users WHERE u_username=?', [username], (err, results) => {
-            console.log('querying db ',results)
+            console.log('querying db ', results)
             if (err) {
-              return('Server error: '+err);
+                return ('Server error: ' + err);
             }
             if (results.length === 0) {
-              db.query('INSERT INTO users (u_username, u_password, u_email, u_license, u_address, u_role) VALUES (?, ?, ?, ?, ?, ?)',
-                [username, MD5(username + password), email, license, address, role],
-                (err2) => {
-                  if (err2) {
-                    return('Server error: '+err2 );
-                  }
-                  console.log('written to database!')
-                  return("")              
-              });
+                console.log('results is 0')
+                db.query('INSERT INTO users (u_username, u_password, u_email, u_license, u_address, u_role) VALUES (?, ?, ?, ?, ?, ?)',
+                    [username, MD5(username + password), email, license, address, role],
+                    (err2) => {
+                        if (err2) {
+                            console.log('did something happen', err2)
+                            return ('Server error: ' + err2);
+                        }
+                        console.log('written to database!')
+                        return ("")
+                    });
             } else {
-              return('Username already exists' );
+                console.log('result exists')
+                return ('Username already exists');
             }
-          });
-    } catch (error) {
+        });    } catch (error) {
         console.error(`Failed to register user ${username}: ${error}`);
         process.exit(1);
     }
-      }
+}
 
 
 /**
@@ -180,7 +202,7 @@ var login = async function (username) {
             console.log(json);
             // TODO -- Implement Password Storage for HLF 
             // if (password === json.enrollmentSecret) {
-                console.log('Login Successful!');
+            console.log('Login Successful!');
             //     return true;
             // }
             // else {
@@ -201,11 +223,9 @@ var login = async function (username) {
 
 // Register endpoint
 app.use('/register', function (req, res) {
-    var username = req.body.username;
-    // var password = req.body.password;
-    register(username).then(function(result){
+    register(req.body).then(function (result) {
         if (!result) {
-            res.status(200).json({ message: 'OK'});
+            res.status(200).json({ message: 'OK' });
         } else {
             res.status(200).json({ message: 'NOK', result: result });
         }
@@ -217,7 +237,7 @@ app.use('/enroll', function (req, res) {
     console.log(req.body);
     var id = req.body.id;
     var pw = req.body.pw;
-    enrollAdmin(id, pw).then(function(result){
+    enrollAdmin(id, pw).then(function (result) {
         if (result) {
             res.status(200).json({ message: 'OK' });
         } else {
@@ -230,7 +250,7 @@ app.use('/enroll', function (req, res) {
 app.use('/login', function (req, res) {
     var username = req.body.username;
     // var password = req.body.password;
-    login(username).then(function(result){
+    login(username).then(function (result) {
         if (result) {
             res.status(200).json({ message: 'OK' });
         } else {
