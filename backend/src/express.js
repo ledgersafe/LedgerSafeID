@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const db = require('./db');
 const { MD5 } = require('./validation');
 const request = require('request');
-const { AUTH_CONFIG } = require('./auth0-variables');
+// const { AUTH_CONFIG } = require('./auth0-variables');
 
 
 // Fabric node modules
@@ -110,18 +110,18 @@ var register = async function (reqBody) {
             username, password, email, license, address, role
         } = reqBody;
 
-        var options = {
-            method: 'GET',
-            url: 'https://YOUR_DOMAIN/api/v2/users',
-            qs: { q: `username:"${username}"`, search_engine: 'v3' },
-            headers: { authorization: 'Bearer YOUR_MGMT_API_ACCESS_TOKEN' }
-        };
+        // var options = {
+        //     method: 'GET',
+        //     url: 'https://YOUR_DOMAIN/api/v2/users',
+        //     qs: { q: `username:"${username}"`, search_engine: 'v3' },
+        //     headers: { authorization: 'Bearer YOUR_MGMT_API_ACCESS_TOKEN' }
+        // };
 
-        request(options, function (error, response, body) {
-            if (error) throw new Error(error);
+        // request(options, function (error, response, body) {
+        //     if (error) throw new Error(error);
 
-            console.log(body);
-        });
+        //     console.log(body);
+        // });
 
         const userExists = await wallet.exists(username);
         if (userExists) {
@@ -169,6 +169,9 @@ var register = async function (reqBody) {
                             return ('Server error: ' + err2);
                         }
                         console.log('written to database!')
+                        db.query('SELECT * FROM users', (err, results) => {
+                            console.log(results);
+                        });
                         return ("")
                     });
             } else {
@@ -194,7 +197,13 @@ var login = async function (username) {
     console.log('Logging In...');
     try {
         const userExists = await wallet.exists(username);
-        if (userExists) {
+        let userExistsInDatabase = false;
+        db.query('SELECT u_username FROM users WHERE u_username=?', [username], (err, results) => {
+            if(results.length === 1){
+                userExistsInDatabase = true;
+            }
+        });
+        if (userExists && userExistsInDatabase) {
             console.log('Log in');
             let user_path = path.join('./wallet', username, username);
             console.log(user_path);
