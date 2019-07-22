@@ -76,9 +76,7 @@ Capabilities:
 Application: &ApplicationDefaults
     ACLs: &ACLsDefault
         # This section provides defaults for policies for various resources
-        # in the system. These "resources" could be functions on system chaincodes
-        # (e.g., "GetBlockByNumber" on the "qscc" system chaincode) or other resources
-        # ACL policy for lscc's "getid" function
+        # in the system.
         lscc/ChaincodeExists: /Channel/Application/Readers
 
         # ACL policy for lscc's "getdepspec" function
@@ -184,31 +182,11 @@ Orderer: &OrdererDefaults
 
     # Batch Size: Controls the number of messages batched into a block.
     BatchSize:
-
-        # Max Message Count: The maximum number of messages to permit in a
-        # batch.
         MaxMessageCount: 10
-
-        # Absolute Max Bytes: The absolute maximum number of bytes allowed for
-        # the serialized messages in a batch. If the "kafka" OrdererType is
-        # selected, set 'message.max.bytes' and 'replica.fetch.max.bytes' on
-        # the Kafka brokers to a value that is larger than this one.
         AbsoluteMaxBytes: 10 MB
-
-        # Preferred Max Bytes: The preferred maximum number of bytes allowed
-        # for the serialized messages in a batch. A message larger than the
-        # preferred max bytes will result in a batch larger than preferred max
-        # bytes.
         PreferredMaxBytes: 512 KB
-
-    # Max Channels is the maximum number of channels to allow on the ordering
-    # network. When set to 0, this implies no maximum number of channels.
     MaxChannels: 0
-
     Kafka:
-        # Brokers: A list of Kafka brokers to which the orderer connects. Edit
-        # this list to identify the brokers of the ordering service.
-        # NOTE: Use IP:port notation.
         Brokers:
             - kafka0:9092
             - kafka1:9092
@@ -221,6 +199,8 @@ Orderer: &OrdererDefaults
     # Policies defines the set of policies at this level of the config tree
     # For Orderer policies, their canonical path is
     #   /Channel/Orderer/<PolicyName>
+    # TBD
+    
     Policies:
         Readers:
             Type: ImplicitMeta
@@ -290,23 +270,23 @@ Channel: &ChannelDefaults
 ################################################################################
 Profiles:
 
-    # SampleSingleMSPSolo defines a configuration which uses the Solo orderer,
-    # and contains a single MSP definition (the MSP sampleconfig).
-    # The Consortium SampleConsortium has only a single member, LedgerSafe.
-    SampleSingleMSPSolo:
+    # LedgerSafeSingleMSPSolo defines a configuration which uses the Solo orderer,
+    # and contains a single MSP definition (the MSP LedgerSafeconfig).
+    # The Consortium LedgerSafeConsortium has only a single member, LedgerSafe.
+    LedgerSafeSingleMSPSolo:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
             Organizations:
                 - *LedgerSafe
         Consortiums:
-            SampleConsortium:
+            LedgerSafeConsortium:
                 Organizations:
                     - *LedgerSafe
 
-    # SampleSingleMSPKafka defines a configuration that differs from the
-    # SampleSingleMSPSolo one only in that it uses the Kafka-based orderer.
-    SampleSingleMSPKafka:
+    # LedgerSafeSingleMSPKafka defines a configuration that differs from the
+    # LedgerSafeSingleMSPSolo one only in that it uses the Kafka-based orderer.
+    LedgerSafeSingleMSPKafka:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
@@ -314,38 +294,38 @@ Profiles:
             Organizations:
                 - *LedgerSafe
         Consortiums:
-            SampleConsortium:
+            LedgerSafeConsortium:
                 Organizations:
                     - *LedgerSafe
 
-    # SampleInsecureSolo defines a configuration which uses the Solo orderer,
+    # LedgerSafeInsecureSolo defines a configuration which uses the Solo orderer,
     # contains no MSP definitions, and allows all transactions and channel
-    # creation requests for the consortium SampleConsortium.
-    SampleInsecureSolo:
+    # creation requests for the consortium LedgerSafeConsortium.
+    LedgerSafeInsecureSolo:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
         Consortiums:
-            SampleConsortium:
+            LedgerSafeConsortium:
                 Organizations:
 
-    # SampleInsecureKafka defines a configuration that differs from the
-    # SampleInsecureSolo one only in that it uses the Kafka-based orderer.
-    SampleInsecureKafka:
+    # LedgerSafeInsecureKafka defines a configuration that differs from the
+    # LedgerSafeInsecureSolo one only in that it uses the Kafka-based orderer.
+    LedgerSafeInsecureKafka:
         <<: *ChannelDefaults
         Orderer:
             OrdererType: kafka
             <<: *OrdererDefaults
         Consortiums:
-            SampleConsortium:
+            LedgerSafeConsortium:
                 Organizations:
 
-    # SampleDevModeSolo defines a configuration which uses the Solo orderer,
-    # contains the sample MSP as both orderer and consortium member, and
+    # LedgerSafeDevModeSolo defines a configuration which uses the Solo orderer,
+    # contains the LedgerSafe MSP as both orderer and consortium member, and
     # requires only basic membership for admin privileges. It also defines
     # an Application on the ordering system channel, which should usually
     # be avoided.
-    SampleDevModeSolo:
+    LedgerSafeDevModeSolo:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
@@ -366,7 +346,7 @@ Profiles:
                           Type: Signature
                           Rule: "OR('LedgerSafe.member')"
         Consortiums:
-            SampleConsortium:
+            LedgerSafeConsortium:
                 Organizations:
                     - <<: *LedgerSafe
                       Policies:
@@ -375,9 +355,9 @@ Profiles:
                               Type: Signature
                               Rule: "OR('LedgerSafe.member')"
 
-    # SampleDevModeKafka defines a configuration that differs from the
-    # SampleDevModeSolo one only in that it uses the Kafka-based orderer.
-    SampleDevModeKafka:
+    # LedgerSafeDevModeKafka defines a configuration that differs from the
+    # LedgerSafeDevModeSolo one only in that it uses the Kafka-based orderer.
+    LedgerSafeDevModeKafka:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
@@ -399,7 +379,7 @@ Profiles:
                           Type: Signature
                           Rule: "OR('LedgerSafe.member')"
         Consortiums:
-            SampleConsortium:
+            LedgerSafeConsortium:
                 Organizations:
                     - <<: *LedgerSafe
                       Policies:
@@ -408,13 +388,13 @@ Profiles:
                               Type: Signature
                               Rule: "OR('LedgerSafe.member')"
 
-    # SampleSingleMSPChannel defines a channel with only the sample org as a
-    # member. It is designed to be used in conjunction with SampleSingleMSPSolo
-    # and SampleSingleMSPKafka orderer profiles.   Note, for channel creation
+    # LedgerSafeSingleMSPChannel defines a channel with only the LedgerSafe org as a
+    # member. It is designed to be used in conjunction with LedgerSafeSingleMSPSolo
+    # and LedgerSafeSingleMSPKafka orderer profiles.   Note, for channel creation
     # profiles, only the 'Application' section and consortium # name are
     # considered.
-    SampleSingleMSPChannel:
-        Consortium: SampleConsortium
+    LedgerSafeSingleMSPChannel:
+        Consortium: LedgerSafeConsortium
         Application:
             <<: *ApplicationDefaults
             Organizations:
