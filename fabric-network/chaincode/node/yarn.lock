@@ -708,7 +708,7 @@ esutils@^2.0.2:
 
 event-stream@~3.3.0:
   version "3.3.4"
-  resolved "http://registry.npmjs.org/event-stream/-/event-stream-3.3.4.tgz#4ab4c9a0f5a54db9338b4c34d86bfce8f4b35571"
+  resolved "https://registry.npmjs.org/event-stream/-/event-stream-3.3.4.tgz#4ab4c9a0f5a54db9338b4c34d86bfce8f4b35571"
   dependencies:
     duplexer "~0.1.1"
     from "~0"
@@ -1334,8 +1334,8 @@ jsprim@^1.2.2:
     verror "1.10.0"
 
 jsrsasign@^8.0.4:
-  version "8.0.12"
-  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-8.0.12.tgz#22abb9656d34a30b9530436720835e89c2e5c316"
+  version "8.0.20"
+  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-8.0.20.tgz#37d8029c9d8f794d8ac8d8998bce319921491f11"
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
